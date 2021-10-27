@@ -1,0 +1,20 @@
+      /* Depth buffer creation function.
+       * ARGUMENTS:
+       *   - buffer size:
+       *       UINT Size;
+       *   - buffer data pointer:
+       *       VOID *Data;
+       *   - width and height of depth buffer:
+       *       Microsoft::WRL::ComPtr<ID3D12Resource> uploadBuffer;
+       * RETURNS: (Microsoft::WRL::ComPtr<ID3D12Resource>) pointer on created buffer.
+       */
+      Microsoft::WRL::ComPtr<ID3D12Resource> CreateDepthBuffer( UINT Size, VOID *Data, 
+                                                           INT W, INT H );
+
+
+  ComList->ClearRenderTargetView(CD3DX12_CPU_DESCRIPTOR_HANDLE(rtvHandle1,
+                                                               CurrBackBuffer, RtvDescriptorSize), Col, 0, nullptr);
+
+  CD3DX12_RESOURCE_BARRIER tmp = CD3DX12_RESOURCE_BARRIER::Transition(BackBuffers[CurrBackBuffer].Get(),
+                                                                      D3D12_RESOURCE_STATE_PRESENT,
+                                                                      D3D12_RESOURCE_STATE_RENDER_TARGET);

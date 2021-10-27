@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Исходные файлы">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Файлы заголовков">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов\Animation system">
+      <UniqueIdentifier>{c55fd904-5ee1-46d5-bec9-2c1decdb2e58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы ресурсов\Animation system\Render">
+      <UniqueIdentifier>{6d927d43-a416-4a4c-a935-0b66ee1befb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы ресурсов\Input system">
+      <UniqueIdentifier>{119f4c40-4d6d-4edf-b0aa-4b1a7f0e0d52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы ресурсов\Animation system\Windows depended">
+      <UniqueIdentifier>{a81abca6-f0c3-4a0b-8187-129ab29180b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы ресурсов\Math Support">
+      <UniqueIdentifier>{6851d7de-7d77-4c9c-b753-19709d789e84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы ресурсов\Animation system\Render\DirectX12">
+      <UniqueIdentifier>{70cbb172-e4c8-4a7c-93d3-8ff64d7c0f1d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\anim\render\render.cpp">
+      <Filter>Файлы ресурсов\Animation system\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\win\win.cpp">
+      <Filter>Файлы ресурсов\Animation system\Windows depended</Filter>
+    </ClCompile>
+    <ClCompile Include="src\win\winmsg.cpp">
+      <Filter>Файлы ресурсов\Animation system\Windows depended</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
+    <ClCompile Include="src\anim\anim.cpp">
+      <Filter>Файлы ресурсов\Animation system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ivdx.cpp">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
+    <ClCompile Include="src\anim\render\dx\dx12.cpp">
+      <Filter>Файлы ресурсов\Animation system\Render\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="src\anim\render\dx\dx12_init.cpp">
+      <Filter>Файлы ресурсов\Animation system\Render\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="src\anim\render\dx\dx12_render.cpp">
+      <Filter>Файлы ресурсов\Animation system\Render\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="src\anim\render\dx\dx12_response.cpp">
+      <Filter>Файлы ресурсов\Animation system\Render\DirectX12</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\anim\render\render.h">
+      <Filter>Файлы ресурсов\Animation system\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\win\win.h">
+      <Filter>Файлы ресурсов\Animation system\Windows depended</Filter>
+    </ClInclude>
+    <ClInclude Include="src\anim\input.h">
+      <Filter>Файлы ресурсов\Input system</Filter>
+    </ClInclude>
+    <ClInclude Include="src\anim\timer.h">
+      <Filter>Файлы ресурсов\Input system</Filter>
+    </ClInclude>
+    <ClInclude Include="src\def.h">
+      <Filter>Файлы ресурсов</Filter>
+    </ClInclude>
+    <ClInclude Include="src\anim\anim.h">
+      <Filter>Файлы ресурсов\Animation system</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ivdx.h">
+      <Filter>Файлы ресурсов</Filter>
+    </ClInclude>
+    <ClInclude Include="src\anim\render\dx\dx12.h">
+      <Filter>Файлы ресурсов\Animation system\Render\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mth\mth.h">
+      <Filter>Файлы ресурсов\Math Support</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mth\mth_matr.h">
+      <Filter>Файлы ресурсов\Math Support</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mth\mth_vec2.h">
+      <Filter>Файлы ресурсов\Math Support</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mth\mth_vec3.h">
+      <Filter>Файлы ресурсов\Math Support</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mth\mth_vec4.h">
+      <Filter>Файлы ресурсов\Math Support</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mth\mthdef.h">
+      <Filter>Файлы ресурсов\Math Support</Filter>
+    </ClInclude>
+    <ClInclude Include="src\anim\render\dx\dx12_shader.h">
+      <Filter>Файлы ресурсов\Animation system\Render\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\anim\render\dx\dx12_texture.h">
+      <Filter>Файлы ресурсов\Animation system\Render\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\anim\render\dx\dx12_primitive.h">
+      <Filter>Файлы ресурсов\Animation system\Render\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mth\mth_camera.h">
+      <Filter>Файлы ресурсов\Math Support</Filter>
+    </ClInclude>
+    <ClInclude Include="src\anim\render\dx\tetris.h">
+      <Filter>Файлы ресурсов\Animation system\Render\DirectX12</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
