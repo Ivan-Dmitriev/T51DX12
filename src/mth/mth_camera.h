@@ -73,8 +73,8 @@ namespace math
       /* Default constructor */
       camera( VOID ) :
         ProjDist(0.1f), FarClip(500.0f), Size(0.1f),
-        Loc(0, 0, 30), Dir(0, 0, -1), Up(0, 1, 0), Right(1, 0, 0), At(0, 0, 0),
-        FrameW(30), FrameH(30)
+        Loc(13.3898449, 23.3018436, 53.4113731), Dir(0, 0, -1), Up(0, 1, 0), Right(1, 0, 0), 
+        At(13.3898449, 23.3018436, 23.4113808), FrameW(30), FrameH(30)
       {
         UpdateProj();
         UpdateView();

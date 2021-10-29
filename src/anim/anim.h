@@ -158,8 +158,9 @@ namespace ivdx
       dx12::core::Response(Keys, GlobalDeltaTime, MouseDX, MouseDY);
 
       CHAR Buf[100];
+      //sprintf(Buf, "%.3f\n", FPS);
 
-      sprintf(Buf, "%.3f\n", FPS);
+      sprintf(Buf, "Score - %d\n", dx12::core::Game.Score);
       SetWindowTextA(hWnd, Buf);
       if (KeysClick['F'])
         FlipFullScreen();

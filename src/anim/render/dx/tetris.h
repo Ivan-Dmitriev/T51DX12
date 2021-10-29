@@ -419,12 +419,13 @@ namespace ivdx
   private:
     figure Player;
     ::ivdx::timer T;
-    
-    const INT ScoreMultiplyer = 200;
-    INT Score;
+
     INT IsPause = FALSE;
 
   public:
+    const INT ScoreMultiplyer = 200;
+    INT Score;
+
     const INT W, H;
     //INT NumOfCubes = 4;
     
@@ -432,7 +433,7 @@ namespace ivdx
     
     /* Default constructor. */
     tetris( VOID ) :
-      W(15), H(26),
+      W(10), H(20),
       Glass(W, H), Frame(W, H), Player(0, 0, rand() % _countof(Figures), rand() % 4),
       Score(0)
     {
