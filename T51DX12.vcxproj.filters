@@ -167,5 +167,14 @@
     <Image Include="C:\Users\ID3\Downloads\avatar_res_1.bmp">
       <Filter>Файлы ресурсов</Filter>
     </Image>
+    <Image Include="C:\Users\ID3\Downloads\avatar_res_2.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="C:\Users\ID3\Downloads\avatar_AND.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="C:\Users\ID3\Downloads\avatar_XOR.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
   </ItemGroup>
 </Project>

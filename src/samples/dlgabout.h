@@ -28,7 +28,8 @@ namespace ivdx
   class dlg_about : public dlg
   {
   private:
-    HBITMAP hAvatar; // Test image
+    HBITMAP hAvatarAND; // Test image
+    HBITMAP hAvatarXOR; // Test image
 
     /***
      * Cracked message handle functions
@@ -75,20 +76,38 @@ namespace ivdx
      */
     VOID OnDrawItem( INT Id, DRAWITEMSTRUCT *DrawItem ) override
     {
+      //if (Id == IDC_MY3D)
+      //{
+      //  BITMAP bm;
+      //  GetObject(hAvatar, sizeof(bm), &bm);
+
+      //  BITMAPINFOHEADER bmh {};
+      //  bmh.biSize = sizeof(BITMAPINFOHEADER);
+      //  bmh.biBitCount = bm.bmBitsPixel;
+      //  bmh.biWidth = bm.bmWidth;
+      //  bmh.biHeight = bm.bmHeight;
+      //  bmh.biPlanes = 1;
+
+      //  StretchDIBits(DrawItem->hDC, 0, 0, bm.bmWidth, bm.bmHeight, 0, 0, bm.bmWidth, bm.bmHeight, bm.bmBits, (BITMAPINFO *)&bmh, DIB_RGB_COLORS, SRCCOPY);
+      //}
       if (Id == IDC_MY3D)
       {
-        BITMAP bm;
-        GetObject(hAvatar, sizeof(bm), &bm);
+        BITMAP bitmap;
+        HDC hMemDC;
+        HGDIOBJ oldBitmap;
 
-        BITMAPINFOHEADER bmh {};
-        bmh.biSize = sizeof(BITMAPINFOHEADER);
-        bmh.biBitCount = bm.bmBitsPixel;
-        bmh.biWidth = bm.bmWidth;
-        bmh.biHeight = bm.bmHeight;
-        bmh.biPlanes = 1;
+        hMemDC = CreateCompatibleDC(DrawItem->hDC);
+        oldBitmap = SelectObject(hMemDC, hAvatarAND);
 
-        StretchDIBits(DrawItem->hDC, 0, 0, bm.bmWidth, bm.bmHeight, 0, 0, bm.bmWidth, bm.bmHeight, bm.bmBits, (BITMAPINFO *)&bmh, DIB_RGB_COLORS, SRCCOPY);
+        GetObject(hAvatarAND, sizeof(bitmap), &bitmap);
+        BitBlt(DrawItem->hDC, 0, 0, bitmap.bmWidth, bitmap.bmHeight, hMemDC, 0, 0, SRCAND);
+
+        oldBitmap = SelectObject(hMemDC, hAvatarXOR);
+
+        GetObject(hAvatarXOR, sizeof(bitmap), &bitmap);
+        BitBlt(DrawItem->hDC, 0, 0, bitmap.bmWidth, bitmap.bmHeight, hMemDC, 0, 0, SRCINVERT);
       }
+
     } /* End of 'OnDrawItem' function */
 
     /* WM_NOTIFY window message handle function.
@@ -138,7 +157,8 @@ namespace ivdx
     dlg_about( win *ParentWin ) :
       dlg(IDD_ABOUT, ParentWin)
     {
-      hAvatar = (HBITMAP)LoadImage(hInstance, (CHAR *)IDB_BITMAP1, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION);
+      hAvatarAND = (HBITMAP)LoadImage(hInstance, (CHAR *)IDB_BITMAP_AND, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION);
+      hAvatarXOR = (HBITMAP)LoadImage(hInstance, (CHAR *)IDB_BITMAP_XOR, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION);
     } /* End of 'dlg_about' function */
 
     /* Class destructor */

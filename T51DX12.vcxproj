@@ -203,7 +203,10 @@
     <None Include="src\res\POINTER.cur" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="C:\Users\ID3\Downloads\avatar_AND.bmp" />
     <Image Include="C:\Users\ID3\Downloads\avatar_res_1.bmp" />
+    <Image Include="C:\Users\ID3\Downloads\avatar_res_2.bmp" />
+    <Image Include="C:\Users\ID3\Downloads\avatar_XOR.bmp" />
     <Image Include="cgsg.ico" />
     <Image Include="res\cgsg.ico" />
     <Image Include="src\res\cgsg.ico" />
