@@ -20,23 +20,47 @@
 
 #include "d3dx12.h"
 
+ivdx::timer T;
+
 /* D3D12 Render function.
  * ARGUMENTS: None.
  * RETURNS: None.
  */
-VOID ivdx::dx12::core::Render( VOID )
+VOID ivdx::dx12::core::Render( INT Cnt )
 {
+  T.Response();
+
   FLOAT Col[] = {BackColor[0], BackColor[1], BackColor[2], BackColor[3]};
+
+  //Cnt += 8;
+  INT q = 0;
+  //for (INT y = 0; y < T.H + 2; y++)
+  //{
+  //  for (INT x = 0; x < T.W + 2; x++)
+  //    if (x == 0 || x == T.W + 1 || y == 0 || y == T.H + 1 || T.Frame[(y - 1) * T.W + x - 1])
+  //      ConstantBufferData[0].Poses[q++] = vec4((FLT)(-T.W / 2 + x), (FLT)(T.H / 2 - y), 0, 1);
+  //}
+  //INT Cnt = T.Frame.NumOfCubes;
+
+  ConstantBufferData[0].M = SceneCam.VP;
+  for (INT i = 0; i < Cnt; i++)
+    ConstantBufferData[0].Poses[i] = Game.Frame.TransCubes[i];
+
+  memcpy(CBVDataBegin, &ConstantBufferData, sizeof(ConstantBufferData));
 
   ComAllocator->Reset();
   ComList->Reset(ComAllocator.Get(), Pipeline1.PipelineState.Get());                        /* ??? */
 
   ComList->SetPipelineState(Pipeline1.PipelineState.Get());
-
   ComList->SetGraphicsRootSignature(Pipeline1.RootSignature.Get());
-  
-  ComList->SetDescriptorHeaps(1, SRVHeap.GetAddressOf());
-  ComList->SetGraphicsRootDescriptorTable(1, SRVHeap->GetGPUDescriptorHandleForHeapStart());
+
+  ID3D12DescriptorHeap *ppHeaps[] = { SRVHeap.Get() };
+
+  ComList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+  ComList->SetGraphicsRootDescriptorTable(0, SRVHeap->GetGPUDescriptorHandleForHeapStart());
+
+  //ComList->SetDescriptorHeaps(1, SRVHeap.GetAddressOf());
+  //ComList->SetGraphicsRootDescriptorTable(0, SRVHeap->GetGPUDescriptorHandleForHeapStart());
 
   ComList->RSSetViewports(1, &ScreenViewport);
   ComList->RSSetScissorRects(1, &ScissorRect);
@@ -65,15 +89,15 @@ VOID ivdx::dx12::core::Render( VOID )
   D3D12_CPU_DESCRIPTOR_HANDLE tmp4 = DSVHeap->GetCPUDescriptorHandleForHeapStart();
   ComList->OMSetRenderTargets(1, &rtvHandle, FALSE, &tmp4);
 
-  matr rot = SceneCam.VP;
+  //matr rot = SceneCam.VP;
 
-  ComList->SetGraphicsRoot32BitConstants(0, 16, rot, 0);
+  //ComList->SetGraphicsRoot32BitConstants(0, 16, rot, 0);
 
   ComList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
   ComList->IASetVertexBuffers(0, 1, &VertexBufferView);
   ComList->IASetIndexBuffer(&IndexBufferView);
 
-  ComList->DrawIndexedInstanced(_countof(IndexBufferData), 15, 0, 0, 0);
+  ComList->DrawIndexedInstanced(_countof(IndexBufferData), Cnt, 0, 0, 0);
 
   // Indicate that the back buffer will now be used to present.
   D3D12_RESOURCE_BARRIER PresentBarrier;

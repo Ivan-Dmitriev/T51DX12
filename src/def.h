@@ -74,6 +74,8 @@ namespace ivdx
   typedef math::vec2<FLT> vec2;
 
   typedef math::matr<FLT> matr;
+  typedef math::matr_data<FLT> matr_data;
+
   typedef math::camera<FLT> camera;
 }
 

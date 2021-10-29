@@ -20,7 +20,9 @@
 #include <map>
 
 #include "render/dx/dx12.h"
-#include "../win/win.h"
+//#include "../win/win.h"
+#include "../samples/winmain.h"
+
 #include "input.h"
 #include "timer.h"
 #include "render/render.h"
@@ -31,13 +33,13 @@ namespace ivdx
   class anim;
   
   /* Animation system class */
-  class anim : public win, public timer, public input, public render
+  class anim : public win_main, public timer, public input, public render, public dx12::core 
   {
   private:
     static anim Instance;
   public:
     std::string Path;
-    tetris T;
+    //tetris T;
    /* Get current directory function.
     * ARGUMENTS: None.
     * RETURNS: None.
@@ -51,9 +53,9 @@ namespace ivdx
 
   private:
     //stock<unit *> MyScene;
-    anim( VOID ) : win() , input(win::MouseWheel, win::hWnd), render(win::hWnd, W, H)
+    anim( VOID ) : win_main(), input(win::MouseWheel, win::hWnd), render(win::hWnd, win::Width, win::Height), core(win::hWnd)
     {
-      T.Init();
+      //T.Init();
     }
   public:
   
@@ -136,20 +138,22 @@ namespace ivdx
      */
     VOID Render( VOID )
     {
-      static DBL global_delta_time  = 0;
+      //static DBL global_delta_time  = 0;
 
-      global_delta_time += GlobalDeltaTime;
+      //global_delta_time += GlobalDeltaTime;
 
-      if (global_delta_time > 2.5)
-      {
-        //T.Step();
-        global_delta_time = 0;
-      }
+      //if (global_delta_time > 2.5)
+      //{
+      //  T.Step();
+      //  global_delta_time = 0;
+      //}
 
       input::Response();
       timer::Response();
 
-      dx12::core::Render();
+      dx12::core::Render(dx12::core::Game.Tick(Keys, KeysClick));
+
+      //dx12::core::T.Responce(Keys);
 
       dx12::core::Response(Keys, GlobalDeltaTime, MouseDX, MouseDY);
 

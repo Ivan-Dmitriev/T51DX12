@@ -31,7 +31,7 @@
 #pragma comment(lib, "d3dcompiler.lib")
 #pragma comment(lib, "dxguid.lib")
 
-typedef ivdx::tetris tetris;
+//typedef ivdx::tetris tetris;
 
 /* Beginning of 'DxException' class */
 class DxException
@@ -164,7 +164,7 @@ namespace ivdx
       UINT TextureHeight = 256;
       UINT TexturePixelSize = 4;
 
-      ::tetris Tetris;
+      //::tetris Tetris;
 
 #ifdef _DEBUG
       Microsoft::WRL::ComPtr<ID3D12Debug3> Debug {};
@@ -206,14 +206,14 @@ namespace ivdx
 
       vertex triangleVertices[8] = 
       {
-        { {-1.0f, -2.0f, -1.0f}, {0.0f, 0.0f, 0.0f} }, // 0
-        { {-1.0f,  2.0f, -1.0f}, {0.0f, 1.0f, 0.0f} }, // 1
-        { {1.0f,  2.0f, -1.0f},  {1.0f, 1.0f, 0.0f} }, // 2
-        { {1.0f, -2.0f, -1.0f},  {1.0f, 0.0f, 0.0f} }, // 3
-        { {-1.0f, -2.0f,  1.0f}, {0.0f, 0.0f, 1.0f} }, // 4
-        { {-1.0f,  2.0f,  1.0f}, {0.0f, 1.0f, 1.0f} }, // 5
-        { {1.0f,  2.0f,  1.0f},  {1.0f, 1.0f, 1.0f} }, // 6
-        { {1.0f, -2.0f,  1.0f},  {1.0f, 0.0f, 1.0f} }  // 7
+        { {-1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 0.0f} }, // 0
+        { {-1.0f,  1.0f, -1.0f}, {0.0f, 1.0f, 0.0f} }, // 1
+        { {1.0f,  1.0f, -1.0f},  {1.0f, 1.0f, 0.0f} }, // 2
+        { {1.0f, -1.0f, -1.0f},  {1.0f, 0.0f, 0.0f} }, // 3
+        { {-1.0f, -1.0f,  1.0f}, {0.0f, 0.0f, 1.0f} }, // 4
+        { {-1.0f,  1.0f,  1.0f}, {0.0f, 1.0f, 1.0f} }, // 5
+        { {1.0f, 1.0f,  1.0f},  {1.0f, 1.0f, 1.0f} }, // 6
+        { {1.0f, -1.0f,  1.0f},  {1.0f, 0.0f, 1.0f} }  // 7
       };
       
       UINT IndexBufferData[36] =
@@ -234,8 +234,28 @@ namespace ivdx
       //};
 
       // Texture sample
+
       Microsoft::WRL::ComPtr<ID3D12Resource> TextureSample;
+
+public:
+      struct CONSTBUFFER
+      {
+        matr M;
+        vec4 Poses[700];
+      };
+
+      vec4 Poses1[700];
+
+      CONSTBUFFER ConstantBufferData[1] =
+      {
+        matr::Identity(),
+        *Poses1
+      };
+      BYTE *CBVDataBegin;
+
     public:
+      ::ivdx::tetris Game;
+
       /* Rendering pipeline creation function.
        * ARGUMENTS: 
        *   - pipeline index:
@@ -278,7 +298,7 @@ namespace ivdx
        * ARGUMENTS: None.
        * RETURNS: None.
        */
-      VOID Render( VOID );
+      VOID Render( INT Cnt );
 
       /* D3D12 depth buffer init function.
        * ARGUMENTS: None.
@@ -349,7 +369,7 @@ namespace ivdx
        * ARGUMENTS: None.
        * RETURNS: (PIPELINE) result pipeline.
        */
-      PIPELINE ResourcesInit( VOID );
+      VOID ResourcesInit( VOID );
 
       /* Create texture.
        * ARGUMENTS: None.

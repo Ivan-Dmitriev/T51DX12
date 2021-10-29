@@ -17,6 +17,7 @@
 #include <ivdx.h>
 #include <cstring>
 #include <vector>
+#include <cstdlib>
 
 #include "../../../ivdx.h"
 #include "dx12.h"
@@ -39,7 +40,7 @@ ivdx::dx12::core::core( HWND hWnd )
 
 #ifdef _DEBUG
   D3D12GetDebugInterface(IID_PPV_ARGS(&Debug));
-  //Debug->EnableDebugLayer();
+  Debug->EnableDebugLayer();
 #endif /* _DEBUG */
 
   Microsoft::WRL::ComPtr<IDXGIAdapter> TmpAdapter, BestAdapter = nullptr;
@@ -110,20 +111,19 @@ ivdx::dx12::core::core( HWND hWnd )
   D3D12_DESCRIPTOR_HEAP_DESC DHD {};
   DHD.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
   DHD.NodeMask = 0;
-  DHD.NumDescriptors = 2 /* frame buffers */ + 1 /* render target */;
+  DHD.NumDescriptors = NumOfBuffers /* frame buffers */ + 1 /* render target */;
   DHD.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
   Device->CreateDescriptorHeap(&DHD, IID_PPV_ARGS(RTVHeap.GetAddressOf()));
   RtvDescriptorSize = Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
   // Depth-stencil
-  DHD.NumDescriptors = 1 /* frame buffers */ + 1 /* render target */;
+  DHD.NumDescriptors = 1 /* depth buffer */ + 1 /* stencil buffer */;
   DHD.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
-  DHD.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-  DHD.NodeMask = 0;
+  //DHD.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+  //DHD.NodeMask = 0;
   Device->CreateDescriptorHeap(&DHD, IID_PPV_ARGS(DSVHeap.GetAddressOf()));
 
-  // Constant/shaders
-  DHD.NumDescriptors = 2 /* ??? */;
+  DHD.NumDescriptors = 2;
   DHD.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
   DHD.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
   Device->CreateDescriptorHeap(&DHD, IID_PPV_ARGS(SRVHeap.GetAddressOf()));
@@ -134,15 +134,15 @@ ivdx::dx12::core::core( HWND hWnd )
   cbvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
   cbvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
   Device->CreateDescriptorHeap(&cbvHeapDesc, IID_PPV_ARGS(&CBVHeap));
-
-  CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(RTVHeap->GetCPUDescriptorHandleForHeapStart());
-  // Create a RTV for each frame.
-  for (UINT n = 0; n < NumOfBuffers; n++)
-  {
-    SwapChain->GetBuffer(n, IID_PPV_ARGS(&BackBuffers[n]));
-    Device->CreateRenderTargetView(BackBuffers[n].Get(), nullptr, rtvHandle);
-    rtvHandle.Offset(1, RtvDescriptorSize);
-  }
+  Resize(Width, Height);
+  //CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(RTVHeap->GetCPUDescriptorHandleForHeapStart());
+  //// Create a RTV for each frame.
+  //for (UINT n = 0; n < NumOfBuffers; n++)
+  //{
+  //  SwapChain->GetBuffer(n, IID_PPV_ARGS(&BackBuffers[n]));
+  //  Device->CreateRenderTargetView(BackBuffers[n].Get(), nullptr, rtvHandle);
+  //  rtvHandle.Offset(1, RtvDescriptorSize);
+  //}
 
   Device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(ComAllocator.GetAddressOf()));
 
@@ -178,38 +178,62 @@ ivdx::dx12::core::core( HWND hWnd )
   //LoadTexture("BRICK.G24");
   coreref::D3D = this;
   //SceneCam.SetLocAtUp(vec3(0, 0, 10), vec3(0, 0, 0), vec3(0, 1, 0));
-  Tetris.Init();
-
-  Pipeline1 = ResourcesInit();
+  //Tetris.Init();
+  
+  //T = tetris(10, 20, 0.1);
+  
+  //Resize(Width, Height);
+  ResourcesInit();
+  //Pipeline1 = ResourcesInit();
 } /* End of 'ivdx::dx12::core::core' function */
 
 /* D3D12 resource init function.
  * ARGUMENTS: None.
  * RETURNS: (PIPELINE) result pipeline.
  */
-ivdx::dx12::core::PIPELINE ivdx::dx12::core::ResourcesInit( VOID )
+VOID ivdx::dx12::core::ResourcesInit( VOID )
 {
-  PIPELINE Res;
-
   {
     // Create root signature
-    D3D12_DESCRIPTOR_RANGE ranges[2];
-    D3D12_ROOT_PARAMETER rootParameters[2];
+    D3D12_DESCRIPTOR_RANGE1 ranges[2];
+    D3D12_ROOT_PARAMETER1 rootParameters[1];
 
     ranges[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
     ranges[0].NumDescriptors = 1;
     ranges[0].BaseShaderRegister = 0;
     ranges[0].RegisterSpace = 0;
     ranges[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-  
-    rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-    rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-    rootParameters[1].DescriptorTable.NumDescriptorRanges = 1;
-    rootParameters[1].DescriptorTable.pDescriptorRanges = &ranges[0];
+    ranges[0].Flags = D3D12_DESCRIPTOR_RANGE_FLAG_NONE;
 
-    rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS;
+    ranges[1].BaseShaderRegister = 0;
+    ranges[1].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_CBV;
+    ranges[1].NumDescriptors = 1;
+    ranges[1].RegisterSpace = 0;
+    ranges[1].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+    ranges[1].Flags = D3D12_DESCRIPTOR_RANGE_FLAG_DATA_STATIC;
+
+    //rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+    //rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+    //rootParameters[2].DescriptorTable.NumDescriptorRanges = 1;
+    //rootParameters[2].DescriptorTable.NumDescriptorRanges = 1;
+    //rootParameters[2].Descriptor.RegisterSpace = 0;
+    //rootParameters[2].Descriptor.ShaderRegister = 2;
+
+    rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
     rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-    rootParameters[0].Constants = {0, 0, 16};
+    rootParameters[0].DescriptorTable.NumDescriptorRanges = 2;
+    rootParameters[0].DescriptorTable.pDescriptorRanges = ranges;
+
+    //rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS;
+    //rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+    //rootParameters[1].Constants = {0, 0, 16};
+
+    // Allow input layout and deny uneccessary access to certain pipeline stages.
+    D3D12_ROOT_SIGNATURE_FLAGS rootSignatureFlags =
+        D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
+        D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
+        D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
+        D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS;
 
     // Texture sampler
     D3D12_STATIC_SAMPLER_DESC sampler = {};
@@ -222,29 +246,29 @@ ivdx::dx12::core::PIPELINE ivdx::dx12::core::ResourcesInit( VOID )
     sampler.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
     sampler.BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;
     sampler.MinLOD = 0.0f;
-    sampler.MaxLOD = D3D12_FLOAT32_MAX; 
+    sampler.MaxLOD = D3D12_FLOAT32_MAX;
     sampler.ShaderRegister = 0;
     sampler.RegisterSpace = 0;
     sampler.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 
     // Describe root signature desc
-    D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc = {};
-    rootSignatureDesc.NumParameters = 2;
-    rootSignatureDesc.pParameters = rootParameters;
-    rootSignatureDesc.NumStaticSamplers = 1;
-    rootSignatureDesc.pStaticSamplers = &sampler;
-    rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+    D3D12_VERSIONED_ROOT_SIGNATURE_DESC RootSignatureDesc;
+    RootSignatureDesc.Version = D3D_ROOT_SIGNATURE_VERSION_1_1;
+    RootSignatureDesc.Desc_1_1.Flags = rootSignatureFlags;
+    RootSignatureDesc.Desc_1_1.NumParameters = 1;
+    RootSignatureDesc.Desc_1_1.pParameters = rootParameters;
+    RootSignatureDesc.Desc_1_1.NumStaticSamplers = 1;
+    RootSignatureDesc.Desc_1_1.pStaticSamplers = &sampler;
 
     Microsoft::WRL::ComPtr<ID3DBlob> signature {};
     Microsoft::WRL::ComPtr<ID3DBlob> error {};
-    D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1,
-      &signature, &error);
+    D3D12SerializeVersionedRootSignature(&RootSignatureDesc, &signature, &error);
     if (signature == nullptr)
       OutputDebugString((CHAR *)error->GetBufferPointer());
 
     Device->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(),
-                                IID_PPV_ARGS(Res.RootSignature.GetAddressOf()));
-    Res.RootSignature->SetName(L"Texture Triangle Root Signature");
+                                IID_PPV_ARGS(Pipeline1.RootSignature.GetAddressOf()));
+    Pipeline1.RootSignature->SetName(L"Texture Triangle Root Signature");
   }
 
   {
@@ -300,7 +324,7 @@ ivdx::dx12::core::PIPELINE ivdx::dx12::core::ResourcesInit( VOID )
 
     D3D12_GRAPHICS_PIPELINE_STATE_DESC PSODesc = {};
     PSODesc.InputLayout = { inputElementDescs, _countof(inputElementDescs) };
-    PSODesc.pRootSignature = Res.RootSignature.Get();
+    PSODesc.pRootSignature = Pipeline1.RootSignature.Get();
     PSODesc.VS = VertexShader.GetByteCode();
     PSODesc.PS = PixelShader.GetByteCode();
     PSODesc.RasterizerState = RasterDesc;
@@ -319,7 +343,7 @@ ivdx::dx12::core::PIPELINE ivdx::dx12::core::ResourcesInit( VOID )
     //PSODesc.DepthStencilState = CD3D12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
     PSODesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
-    Device->CreateGraphicsPipelineState(&PSODesc, IID_PPV_ARGS(Res.PipelineState.GetAddressOf()));
+    Device->CreateGraphicsPipelineState(&PSODesc, IID_PPV_ARGS(Pipeline1.PipelineState.GetAddressOf()));
   }
 
   Device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, ComAllocator.Get(), nullptr, IID_PPV_ARGS(&ComList));
@@ -404,16 +428,61 @@ ivdx::dx12::core::PIPELINE ivdx::dx12::core::ResourcesInit( VOID )
     IndexBufferView.Format = DXGI_FORMAT_R32_UINT;
     IndexBufferView.SizeInBytes = IndexBufferSize;
   }
-  UINT elementByteSize = CalcConstantBufferByteSize(sizeof(SceneConstantBuffer));
+  //UINT elementByteSize = CalcConstantBufferByteSize(sizeof(SceneConstantBuffer));
 
-  CD3DX12_HEAP_PROPERTIES tmp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
-  CD3DX12_RESOURCE_DESC tmp2 = CD3DX12_RESOURCE_DESC::Buffer(elementByteSize);
-  Device->CreateCommittedResource(&tmp, D3D12_HEAP_FLAG_NONE, &tmp2, 
-    D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&UploadCBuffer));
+  //CD3DX12_HEAP_PROPERTIES tmp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+  //CD3DX12_RESOURCE_DESC tmp2 = CD3DX12_RESOURCE_DESC::Buffer(elementByteSize);
+  //Device->CreateCommittedResource(&tmp, D3D12_HEAP_FLAG_NONE, &tmp2, 
+  //  D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&UploadCBuffer));
 
-  //LoadTexture("brick.g24");
   DepthBufferInit();
+  LoadTexture("brick.g24");
   
+  {
+    const UINT ConstantBufferSize = CalcConstantBufferByteSize(sizeof(ConstantBufferData)) + 256;
+
+    D3D12_HEAP_PROPERTIES HeapProps;
+    HeapProps.Type = D3D12_HEAP_TYPE_UPLOAD;
+    HeapProps.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+    HeapProps.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+    HeapProps.CreationNodeMask = 1;
+    HeapProps.VisibleNodeMask = 1;
+
+    D3D12_RESOURCE_DESC ConstBufferResourceDesc;
+    ConstBufferResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+    ConstBufferResourceDesc.Alignment = 0;
+    ConstBufferResourceDesc.Width = ConstantBufferSize;
+    ConstBufferResourceDesc.Height = 1;
+    ConstBufferResourceDesc.DepthOrArraySize = 1;
+    ConstBufferResourceDesc.MipLevels = 1;
+    ConstBufferResourceDesc.Format = DXGI_FORMAT_UNKNOWN;
+    ConstBufferResourceDesc.SampleDesc.Count = 1;
+    ConstBufferResourceDesc.SampleDesc.Quality = 0;
+    ConstBufferResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+    ConstBufferResourceDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
+
+    Device->CreateCommittedResource(&HeapProps, D3D12_HEAP_FLAG_NONE,
+                                    &ConstBufferResourceDesc,
+                                    D3D12_RESOURCE_STATE_GENERIC_READ,
+                                    nullptr,
+                                    IID_PPV_ARGS(&ConstantBuffer));
+
+    // Describe and create a constant buffer view.
+    D3D12_CONSTANT_BUFFER_VIEW_DESC CBVDesc = {};
+    CBVDesc.BufferLocation = ConstantBuffer->GetGPUVirtualAddress();
+    CBVDesc.SizeInBytes = ConstantBufferSize;
+    //CBVDesc.SizeInBytes = ConstantBufferSize;
+
+    D3D12_CPU_DESCRIPTOR_HANDLE CBVHandle = SRVHeap->GetCPUDescriptorHandleForHeapStart();
+    CBVHandle.ptr += Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE::D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+    Device->CreateConstantBufferView(&CBVDesc, CBVHandle);
+
+    D3D12_RANGE ReadRange1;
+    ReadRange1.Begin = 0;
+    ReadRange1.End = 0;
+    ConstantBuffer->Map(0, &ReadRange1, reinterpret_cast<VOID **>(&CBVDataBegin));
+    memcpy(CBVDataBegin, &ConstantBufferData, ConstantBufferSize);
+  }
   ComList->Close();
   ID3D12CommandList* ppCommandLists[] = {ComList.Get()};
   ComQueue->ExecuteCommandLists(_countof(ppCommandLists), ppCommandLists);
@@ -426,13 +495,13 @@ ivdx::dx12::core::PIPELINE ivdx::dx12::core::ResourcesInit( VOID )
     HRESULT_FROM_WIN32(GetLastError());
 
   WaitForPreviousFrame();
-
-  return Res;
 } /* End of 'ivdx::dx12::core::ResourcesInit' function */
 
 /* Class destructor */
 ivdx::dx12::core::~core( VOID )
 {
+  //ConstantBuffer->Unmap(0, nullptr);
+
   //Debug->
   //ComAllocator->Release();
   //ComList->Release();

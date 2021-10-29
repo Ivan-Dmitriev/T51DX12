@@ -19,6 +19,9 @@
 
 #include <wrl/client.h>
 
+//#include <windowsx.h>
+//#include <CommCtrl.h>
+
 #include "def.h"
 #include "anim/anim.h"
 #include "anim/render/render.h"
@@ -27,6 +30,7 @@
 #include "anim/timer.h"
 #include "win/win.h"
 #include "anim/render/dx/dx12.h"
+#include "samples/winmain.h"
 
 #endif /* __ivdx_h_ */
 

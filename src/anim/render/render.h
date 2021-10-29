@@ -44,7 +44,7 @@ namespace ivdx
   VOID APIENTRY glDebugOutput( UINT Source, UINT Type, UINT Id, UINT Severity,
                                INT Length, const CHAR *Message, const VOID *UserParam );
   /* Render class */
-  class render : public dx12::core
+  class render 
   {
   private:
     HWND &hRndWnd;
@@ -57,8 +57,7 @@ namespace ivdx
   public:
  
     /* --> anim() : win(), render(win::hWnd, ... ) */
-    render( HWND &hWnd, INT &W, INT &H ) : hRndWnd(hWnd), FrameW(W), FrameH(H), 
-      core(hWnd)
+    render( HWND &hWnd, INT &W, INT &H ) : hRndWnd(hWnd), FrameW(W), FrameH(H) 
     {
     }
     ~render( VOID )

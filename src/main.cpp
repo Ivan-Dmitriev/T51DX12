@@ -15,9 +15,16 @@
  */
 
 #include <ivdx.h>
+
+#include <commctrl.h>
+#include <windowsx.h>
+
 #include "ivdx.h"
 
 #include <iostream>
+//#include <commondf.h>
+
+#include "samples/winmain.h"
 
 /*
 #include "mth/mth.h"
@@ -42,9 +49,21 @@
   */
 INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, CHAR *CmdLine, INT CmdShow )
 {
-  ivdx::anim &myw = ivdx::anim::Get();
+  if (hPrevInstance != NULL || CmdLine == NULL || CmdShow == -1)
+      return -1;
+  InitCommonControls();
+  
+  //ivdx::win_main MyWin(hInstance);
 
-  return myw.Run();
+  ivdx::anim &myw = ivdx::anim::Get();
+  //ivdx::win_main MyWin;
+
+  //MyWin.Run();  
+  myw.Run();
+
+  return 0;
+
+  //return myw.Run();
 } /* End of 'WinMain' function */
 
   /* END OF 'main.cpp' FILE */

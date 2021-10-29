@@ -165,10 +165,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\samples\dlg.cpp" />
     <ClCompile Include="src\win\win.cpp" />
     <ClCompile Include="src\win\winmsg.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="res\resource.h" />
     <ClInclude Include="src\anim\anim.h" />
     <ClInclude Include="src\anim\input.h" />
     <ClInclude Include="src\anim\render\dx\dx12.h" />
@@ -187,7 +189,23 @@
     <ClInclude Include="src\mth\mth_vec2.h" />
     <ClInclude Include="src\mth\mth_vec3.h" />
     <ClInclude Include="src\mth\mth_vec4.h" />
+    <ClInclude Include="src\res\resource.h" />
+    <ClInclude Include="src\samples\dlg.h" />
+    <ClInclude Include="src\samples\dlgabout.h" />
+    <ClInclude Include="src\samples\winmain.h" />
     <ClInclude Include="src\win\win.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\res\T51DX12.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\res\cursor1.cur" />
+    <None Include="src\res\POINTER.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="cgsg.ico" />
+    <Image Include="res\cgsg.ico" />
+    <Image Include="src\res\cgsg.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

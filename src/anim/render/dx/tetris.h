@@ -2,305 +2,509 @@
  * Copyright (C) 2021
  *    Computer Graphics Support Group of 30 Phys-Math Lyceum
  *************************************************************/
-
- /* FILE NAME   : dx12.h
-  * PURPOSE     : Animation project.
-  *               Direct X 12 .
-  * PROGRAMMER  : Ivan Dmitriev.
-  * LAST UPDATE : 25.10.2021
-  *
-  * No part of this file may be changed without agreement of
-  * Computer Graphics Support Group of 30 Phys-Math Lyceum
-  */
+ 
+/* FILE NAME   : tetris.h
+ * PURPOSE     : Animation DirectX 12 project.
+ *               Animation system.
+ *               Render system.
+ *               Tetris game module.
+ * PROGRAMMER  : CGSG'2021.
+ *               Ivan Dmitriev.
+ * LAST UPDATE : 27.10.2021.
+ * NOTE        : Module namespace 'bodx'.
+ *
+ * No part of this file may be changed without agreement of
+ * Computer Graphics Support Group of 30 Phys-Math Lyceum
+ */
 
 #ifndef __tetris_h_
 #define __tetris_h_
 
-#include <vector>
-
 #include "../../../def.h"
+#include "../../timer.h"
+#include "dx12.h"
 
-/* Beginning of 'ivdx' namespace */
+/* Project namespace */
 namespace ivdx
 {
-  /* Beginning of 'tetris' class */
+  // bricks configurations
+  static constexpr BYTE Figures[7][4][4][4] =
+  {
+    { 
+      {
+        {0, 0, 0, 0},
+        {1, 1, 1, 1},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+      },
+      {
+        {0, 0, 1, 0},
+        {0, 0, 1, 0},
+        {0, 0, 1, 0},
+        {0, 0, 1, 0},
+      },
+      {
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+        {1, 1, 1, 1},
+        {0, 0, 0, 0},
+      },
+      {
+        {0, 1, 0, 0},
+        {0, 1, 0, 0},
+        {0, 1, 0, 0},
+        {0, 1, 0, 0},
+      },
+    },
+
+    {
+      {
+        {1, 1, 1, 0},
+        {0, 0, 1, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+      },
+      {
+        {0, 1, 0, 0},
+        {0, 1, 0, 0},
+        {1, 1, 0, 0},
+        {0, 0, 0, 0},
+      },
+      {
+        {1, 0, 0, 0},
+        {1, 1, 1, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+      },
+      {
+        {1, 1, 0, 0},
+        {1, 0, 0, 0},
+        {1, 0, 0, 0},
+        {0, 0, 0, 0},
+      },
+    },
+
+    {
+      {
+        {1, 1, 1, 0},
+        {1, 0, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+      },
+      {
+        {1, 1, 0, 0},
+        {0, 1, 0, 0},
+        {0, 1, 0, 0},
+        {0, 0, 0, 0},
+      },
+      {
+        {0, 0, 1, 0},
+        {1, 1, 1, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+      },
+      {
+        {1, 1, 0, 0},
+        {1, 0, 0, 0},
+        {1, 0, 0, 0},
+        {0, 0, 0, 0},
+      },
+    },
+
+    {
+      {
+        {1, 1, 0, 0},
+        {0, 1, 1, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+      },
+      {
+        {0, 1, 0, 0},
+        {1, 1, 0, 0},
+        {1, 0, 0, 0},
+        {0, 0, 0, 0},
+      },
+      {
+        {1, 1, 0, 0},
+        {0, 1, 1, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+      },
+      {
+        {0, 1, 0, 0},
+        {1, 1, 0, 0},
+        {1, 0, 0, 0},
+        {0, 0, 0, 0},
+      },
+    },
+
+    {
+      {
+        {0, 1, 1, 0},
+        {1, 1, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+      },
+      {
+        {1, 0, 0, 0},
+        {1, 1, 0, 0},
+        {0, 1, 0, 0},
+        {0, 0, 0, 0},
+      },
+      {
+        {0, 1, 1, 0},
+        {1, 1, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+      },
+      {
+        {1, 0, 0, 0},
+        {1, 1, 0, 0},
+        {0, 1, 0, 0},
+        {0, 0, 0, 0},
+      },
+    },
+
+    {
+      {
+        {1, 1, 0, 0},
+        {1, 1, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+      },
+      {
+        {1, 1, 0, 0},
+        {1, 1, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+      },
+      {
+        {1, 1, 0, 0},
+        {1, 1, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+      },
+      {
+        {1, 1, 0, 0},
+        {1, 1, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+      },
+    },
+
+    {
+      {
+        {1, 1, 1, 0},
+        {0, 1, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+      },
+      {
+        {0, 1, 0, 0},
+        {1, 1, 0, 0},
+        {0, 1, 0, 0},
+        {0, 0, 0, 0},
+      },
+      {
+        {0, 1, 0, 0},
+        {1, 1, 1, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+      },
+      {
+        {1, 0, 0, 0},
+        {1, 1, 0, 0},
+        {1, 0, 0, 0},
+        {0, 0, 0, 0},
+      },
+    },
+  };
+
+  /* Figure class */
   struct figure
   {
-    INT NumInFiguresTable;
-    INT RotateNum;
-  }; /* End of 'tetris' class */
-  /* Beginning of 'tetris' class */
-  class tetris
+  public:
+    INT X, Y, Index, Rotation;
+
+    /* Class constructor.
+     * ARGUMENTS:
+     *   - position:
+     *        INT X, Y;
+     *   - figure index:
+     *        INT Index;
+     *   - rotation:
+     *        INT Rotation;
+     */
+    figure( INT X, INT Y, INT Index, INT Rotation ) :
+      X(X), Y(Y), Index(Index), Rotation(Rotation)
+    {
+    } /* End of 'figure' function */
+  }; /* End of 'figure' class */
+
+  /* Field class */
+  class field 
   {
   private:
-    const INT W = 10, H = 20;      // game field size; 
-    INT CurX = 5, CurY = 19;
+    std::string
+      filled_item = "[]",
+      empty_item = "  ",
+      wall_item = "..";
+    CHAR *Cells;
+    INT W, H;
 
   public:
-    CHAR figures[7][4][4][4]; 
-    CHAR CurFigure[4][4];
-
-    CHAR glass[20][10];
+    vec4 TransCubes[20000];
     INT NumOfCubes = 0;
-    std::vector<vec2> TranslateCubes;
 
-    /* Initialization of game field function.
-     * ARGUMENTS: None.
-     * RETURNS: None.
+    /* Class constructor.
+     * ARGUMENTS:
+     *   - size:
+     *        INT W, H;
      */
-    VOID Init( VOID )
+    field( INT W, INT H ) : Cells(new CHAR[W * H]), W(W), H(H)
+    {
+      memset(Cells, 0, W * H);
+    } /* End of 'field' function */
+    
+    /* Copy class constructor.
+     * ARGUMENTS:
+     *   - other field:
+     *       const field &F;
+     */
+    field( const field &F ) : Cells(new CHAR[F.W * F.H]), W(F.W), H(F.H)
     {
       for (INT y = 0; y < H; y++)
         for (INT x = 0; x < W; x++)
-          glass[y][x] = ' ';
-      NumOfCubes = 4;
-
-      //const CHAR *figures[] = {"***  *          ",
-      //                         "***   *         ",
-      //                         "*** *           ",
-      //                         "****            ",
-      //                         "**  **          ",
-      //                         "**   **         ",
-      //                         " ** **          "};
-
-      const CHAR figures_1[7][5][5] = 
-      {
-        {
-          "    ", 
-          "*** ", 
-          " *  ", 
-          "    " 
-        }, 
-        {
-          "    ", 
-          "*** ", 
-          "  * ", 
-          "    " 
-        }, 
-        {
-          "    ", 
-          "*** ", 
-          "*   ", 
-          "    " 
-        }, 
-        {
-          "    ", 
-          "****", 
-          "    ", 
-          "    " 
-        }, 
-        {
-          "    ", 
-          " ** ", 
-          " ** ", 
-          "    " 
-        }, 
-        {
-          "    ", 
-          "**  ", 
-          " ** ", 
-          "    " 
-        }, 
-        {
-          "    ", 
-          "  **", 
-          " ** ", 
-          "    " 
-        } 
-      };
-      for (INT i = 0; i < 7; i++)
-      {
-        CHAR tmp[4][4], block[4][4];
-        //Save temporarily block
-
-        for (INT k = 0; k < 4; k++)
-          for (INT p = 0; p < 4; p++)
-            tmp[k][p] = figures_1[i][k][p];
-        for (INT k = 0; k < 4; k++)
-          for (INT p = 0; p < 4; p++)
-             figures[i][0][k][p] = tmp[k][p];
-
-        for (INT t = 1; t < 4; t++)
-        {
-          for (INT k = 0; k < 4; k++)
-            for (INT p = 0; p < 4; p++)
-              block[k][p] = tmp[k][p];
-
-          for (INT k = 0; k < 4; k++)
-            for (INT p = 0; p < 4; p++)
-              tmp[k][p] = block[3 - p][k];
-
-          for (INT k = 0; k < 4; k++)
-            for (INT p = 0; p < 4; p++)
-               figures[i][t][k][p] = tmp[k][p];
-          printf("");
-        }
-        //for (INT k = 0; k < 4; k++)
-        //  for (INT p = 0; p < 4; p++)
-        //    tmp[k][p] = figures_1[i][3 - p][k];
-        //return;
-      }
-      printf("");
-
-      //for (INT i = 0; i < 7; i++)
-      //  for (INT k = 0; k < 4; k++)
-      //    for (INT p = 0, j = 0; p < 4; p++, j++)
-      //      figures_1[i][k][p] = figures[i][j];
-      for (INT k = 0; k < 4; k++)
-        for (INT p = 0; p < 4; p++)
-           CurFigure[k][p] = figures[2][0][k][p];
-    } /* End of 'Init' function */
-
-    /* Place one figure function.
-     * ARGUMENTS: 
-     *   - input figure: 
-     *       figure Fig;
-     * RETURNS: None.
-     */
-    BOOL IsCollide( INT X, INT Y )
-    {
-      if (X >= W || Y >= H || X < 0 || Y < 0)
-        return TRUE;
-      if (glass[Y][X] == '*')
-        return TRUE;
-      return FALSE;
-    } /* End of 'IsCollide' function */
-
-    /* Place one figure function.
-     * ARGUMENTS: None. 
-     * RETURNS: None.
-     */
-    VOID Placefigure( VOID )
-    {
-      for (INT k = 0; k < 4; k++)
-        for (INT p = 0; p < 4; p++)
-          if (CurFigure[k][p] == '*')
-            glass[CurY - k][CurX - p] = '*';
-    } /* End of 'Placefigure' function */
-
-    /* Check if figure is not colliding function.
-     * ARGUMENTS: 
-     *   - Figure translation:
-     *       INT dx, INT dy;
-     * RETURNS: None.
-     */
-    BOOL CheckFigure( VOID )
-    {
-      for (INT k = 0; k < 4; k++)
-        for (INT p = 0; p < 4; p++)
-          if (CurFigure[k][p] == '*')
-            if (IsCollide(CurX - p, CurY - k))
-              return FALSE;
-      return TRUE;
-    } /* End of 'CheckFigure' function */
+          Cells[y * W + x] = F.Cells[y * W + x];
+    } /* End of 'field' function */
 
     /* Draw field function.
      * ARGUMENTS: None.
-     * RETURNS: None.
+     * RETURNS: (INT)Num of active bricks.
      */
-    VOID Draw( VOID )
+    INT Draw( VOID )
     {
+      INT q = 0;
+      //for (INT y = 0; y < H + 2; y++)
+      //{
+      //  for (INT x = 0; x < W + 2; x++)
+      //    if (x == 0 || x == W + 1 || y == 0 || y == H + 1 || Cells[(y - 1) * W + x - 1])
+      //      TransCubes[q++] = vec4((FLT)(-W / 2 + x), (FLT)(H / 2 - y), 0, 0);
+      //}
+      for (INT y = 0; y < H + 2; y++)
+      {
+        for (INT x = 0; x < W + 2; x++)
+          if (x == 0 || x == W + 1 || y == 0 || y == H + 1 || Cells[(y - 1) * W + x - 1])
+            TransCubes[q++] = vec4(2 * x, 2 * (H + 2 - y), 0, 0);
+      }
+
+      q += 8;
+      NumOfCubes = q;
+
+      return q;
     } /* End of 'Draw' function */
-    /* Draw field function.
+
+    /* Clear field function.
      * ARGUMENTS: None.
      * RETURNS: None.
      */
-    VOID MoveFigure( INT NewX, INT NewY )
+    VOID Clear( VOID )
     {
-        for (INT k = 0; k < 4; k++)
-          for (INT p = 0; p < 4; p++)
-            if (CurFigure[k][p] == '*')
-              glass[CurY - k][CurX - p] = ' ';
+      ZeroMemory(Cells, W * H);
+    } /* End of 'Clear' function */
 
-        CurX = NewX; 
-        CurY = NewY; 
-
-        for (INT k = 0; k < 4; k++)
-          for (INT p = 0; p < 4; p++)
-            if (CurFigure[k][p] == '*')
-              glass[CurY - k][CurX - p] = '*';
-
-    } /* End of 'MoveFigure' function */
-
-    /* Draw field function.
+    /* Clear lines field function.
      * ARGUMENTS: None.
-     * RETURNS: None.
+     * RETURNS: (INT)Num of active bricks.
      */
-    VOID Response( BYTE *Keys )
+    INT ClearLines( VOID )
     {
-      if (Keys[VK_LEFT])
+      INT ClearedLinesCount = 0;
+
+      for (INT i = 0; i < H; i++)
       {
-        for (INT k = 0; k < 4; k++)
-          for (INT p = 0; p < 4; p++)
-            if (CurFigure[k][p] == '*')
-              if (IsCollide(k + CurY, p + CurX))
-                break;
-        MoveFigure(CurX - 1, CurY);
-      }
+        BOOL ShouldClear = TRUE;
+        for (INT j = 0; j < W; j++)
+          if (!Cells[i * W + j])
+            ShouldClear = FALSE;
 
-    }
-    /* Game step function.
-     * ARGUMENTS: None.
-     * RETURNS: None.
-     */
-    VOID Step( VOID )
-    {
-      static INT SavedCurY = CurY, SavedCurX = CurX; 
-      static BOOL IsPut = FALSE;
-
-      if (!IsPut)
-      {
-        for (INT k = 0; k < 4; k++)
-          for (INT p = 0; p < 4; p++)
-            if (CurFigure[k][p] == '*')
-              glass[CurY - k][CurX - p] = ' ';
-      }
-      IsPut = FALSE;
-
-      CurY--; 
-      if (CurY <= 4)
-      {  
-        NumOfCubes += 4;
-
-        CurX = 5; 
-        CurY = 19; 
-        IsPut = TRUE;
-      }
-      if (!CheckFigure())
-      {
-        NumOfCubes += 4;
-     
-        //Placefigure();
-
-        CurX = 5; 
-        CurY = 19; 
-        IsPut = TRUE;
-      }
-      Placefigure();
-      FILE *F;
-      F = fopen("a.txt", "w");
-      for (INT k = 0; k < 20; k++)
-      {
-        OutputDebugString(glass[k]);
-        OutputDebugString("\n");
-      }
-      OutputDebugString("\n\n");
-      
-      INT count = 0;
-
-      for (INT y = 0; y < 20; y++)
-        for (INT x = 0; x < 10; x++)
+        if (ShouldClear)
         {
-          if (glass[y][x] == '*')
-            TranslateCubes.push_back(vec2(x, y));
+          for (INT y = i; y >= 1; y--)
+            for (INT x = 0; x < W; x++)
+              Cells[y * W + x] = Cells[(y - 1) * W + x];
+          memset(Cells, 0, W);
+          ClearedLinesCount++;
         }
-      //fprintf(F, "\n\n\n");
-    } /* End of 'Step' function */
+      }
 
+      return ClearedLinesCount;
+    } /* End of 'ClearLines' function */
+
+    /* Place figure function.
+     * ARGUMENTS:
+     *   - refference to figure:
+     *       const figure &F;
+     * RETURNS: None.
+     */
+    VOID PlaceFigure( const figure &F )
+    {
+      
+      for (INT i = 0; i < 4; i++)
+        for (INT j = 0; j < 4; j++)
+          if (Figures[F.Index][F.Rotation][i][j])
+            Cells[(F.Y + i) * W + j + F.X] = 1;
+    } /* End of 'PlaceFigure' function */
+
+    /* Place figure function.
+     * ARGUMENTS:
+     *   - refference to figure:
+     *       const figure &F;
+     *   - direction:
+     *       const mth::vec2<INT> &Dir;
+     * RETURNS: (BOOL) TRUE if touched, FALSE otherwise.
+     */
+    BOOL CheckFigureTouch( const figure &F, math::vec2<INT> Dir ) 
+    {
+      for (INT i = 0; i < 4; i++)
+        for (INT j = 0; j < 4; j++)
+          if (Figures[F.Index][F.Rotation][i][j] &&
+              (Cells[(F.Y + i + Dir[1]) * W + F.X + j] ||
+               Cells[(F.Y + i) * W + F.X + j + Dir[0]] ||
+               F.Y + i + Dir[1] >= H ||
+               F.X + j + Dir[0] >= W || F.X + j + Dir[0] < 0))
+            return TRUE;
+      return FALSE;
+    } /* End of 'CheckFigureTouch' function */
+
+    /* Copiyng operator function.
+     * ARGUMENTS:
+     *   - refference to field:
+     *       const field &F;
+     * RETURNS: (field &) Seld-refference.
+     */
+    field & operator=( const field &F )
+    {
+      W = F.W;
+      H = F.H;
+      for (INT y = 0; y < H; y++)
+        for (INT x = 0; x < W; x++)
+          Cells[y * W + x] = F.Cells[y * W + x];
+      return *this;
+    } /* End of 'operator=' function */ 
+
+    /* Get line operator function.
+     * ARGUMENTS:
+     *   - line:
+     *       INT Y;
+     * RETURNS: (CHAR *) y line.
+     */
+    CHAR * operator[]( INT Y ) const
+    {
+      if (Y > H)
+        return &Cells[0];
+      return &Cells[Y * W];
+    } /* End of 'operator[]' function */
+
+    /* Destructor */
+    ~field( VOID )
+    {
+      delete[] Cells;
+    } /* End of '~field' function */
+  }; /* End of 'field' class */
+
+  /* Tetris class */
+  class tetris 
+  {
+  private:
+    const INT W, H;
+    figure Player;
+    ::ivdx::timer T;
+    
+    const INT ScoreMultiplyer = 200;
+    INT Score;
+
+  public:
+    //INT NumOfCubes = 4;
+    
+    field Glass, Frame;
+    
+    /* Default constructor. */
+    tetris( VOID ) :
+      W(15), H(26),
+      Glass(W, H), Frame(W, H), Player(0, 0, rand() % _countof(Figures), rand() % 4),
+      Score(0)
+    {
+    } /* End of 'tetris' function */
+
+  private: 
+    /* Move figure function.
+     * ARGUMENTS:
+     *   - input states:
+     *       BYTE *Keys, *KeysClick;
+     * RETURNS: None.
+     */
+    VOID PlayerMove( BYTE *Keys, BYTE *KeysClick )
+    {
+      static DOUBLE delta = 0;
+      delta += T.DeltaTime;
+      if (delta > 0.3)
+        Player.Y++, delta = 0;
+
+      static DOUBLE d1 = 0, d2 = 0, d3 = 0;
+      d1 += T.DeltaTime;
+      d2 += T.DeltaTime;
+      d3 += T.DeltaTime;
+      if ((KeysClick[VK_LEFT] || d1 > 0.1 && Keys[VK_LEFT]) && !Glass.CheckFigureTouch(Player, math::vec2<INT>(-1, 0)))
+          Player.X--, d1 = 0;
+      if ((KeysClick[VK_RIGHT] || d2 > 0.1 && Keys[VK_RIGHT]) && !Glass.CheckFigureTouch(Player, math::vec2<INT>(1, 0)))
+        Player.X++, d2 = 0;
+      if (Keys[VK_DOWN] && !Glass.CheckFigureTouch(Player, math::vec2<INT>(0, 1)))
+        Player.Y++;
+      if (KeysClick['R'] || d3 > 0.2 && Keys['R'])
+      {
+        figure tmp = Player;
+        tmp.Rotation = (Player.Rotation + 1) % 4;
+        if (!Glass.CheckFigureTouch(tmp, math::vec2<INT>(0, 0)))
+          Player.Rotation = (Player.Rotation + 1) % 4;
+        d3 = 0;
+      }
+    } /* End of 'PlayerMove' function */
+
+    /* Render game function.
+     * ARGUMENTS: None.
+     * RETURNS: (INT) Number of active bricks.
+     */
+    INT Render( VOID )
+    {
+      Frame = Glass;
+      Frame.PlaceFigure(Player);
+      if (Glass.CheckFigureTouch(Player, math::vec2<INT>(0, 1)))
+      {
+        //NumOfCubes += 4;
+        Glass.PlaceFigure(Player), Player = figure(0, 0, rand() % _countof(Figures), 0);
+      }
+
+      // Output player's score
+      //std::cout << "Your Score: " << Score << '\n';
+      return Frame.Draw();
+    } /* End of 'Render' function */
+
+  public:
+    /* Idle function.
+     * ARGUMENTS: None.
+     * RETURNS: (INT) Number of active bricks.
+     */
+    INT Tick( BYTE *Keys, BYTE *KeysClick )
+    {
+      T.Response();
+      PlayerMove(Keys, KeysClick);
+      Score += Glass.ClearLines() * ScoreMultiplyer;
+      return Render();
+    } /* End of 'Tick' function */
   }; /* End of 'tetris' class */
-} /* end of 'ivdx' namespace */
+} /* end of 'bodx' namespace */
 
-#endif /* __tetris_h_ */
+#endif // __tetris_h_
 
 /* END OF 'tetris.h' FILE */
-

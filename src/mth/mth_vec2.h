@@ -35,6 +35,22 @@ namespace math
       {
       } /* End of 'constructor' function */
 
+      /* Get coord of vector by index function.
+       * ARGUMENTS: 
+       *   Index of coord:
+       *     - INT i;
+       * RETURNS: (Type &) link on result value.
+       */
+      Type & operator[]( INT i )
+      {
+        assert(i >= 0 && i <= 1);
+
+        if (i == 0)
+          return X;
+        else 
+          return Y;
+      } /* End of 'operator[]' function */
+
       /* Constructor of vec3 class function.
        * ARGUMENTS: None.
        * RETURNS: None.  

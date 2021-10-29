@@ -35,7 +35,13 @@
 namespace math
 {
   //class camera;
+  template<typename Type1>
+    class matr_data
+    {
+    public:
+      Type1 M[4][4];
 
+    };
   template<typename Type1>
     class matr
     {

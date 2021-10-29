@@ -52,13 +52,13 @@ VOID ivdx::dx12::core::Response( BYTE *Keys, FLT GlobalDeltaTime, FLT MouseDX, F
 
     SceneCam.Move(SceneCam.Right * sx + SceneCam.Up * sy);
   }
-  if (Keys[VK_LBUTTON] || Keys[VK_LEFT] || Keys[VK_RIGHT])
-    SceneCam.Rotate(vec3(0, 1, 0), (-Keys[VK_LBUTTON] * MouseDX +
-                                        (Keys[VK_LEFT] - Keys[VK_RIGHT])) * GlobalDeltaTime * 130);
+  //if (Keys[VK_LBUTTON] || Keys[VK_LEFT] || Keys[VK_RIGHT])
+  //  SceneCam.Rotate(vec3(0, 1, 0), (-Keys[VK_LBUTTON] * MouseDX +
+  //                                      (Keys[VK_LEFT] - Keys[VK_RIGHT])) * GlobalDeltaTime * 130);
 
-  if (Keys[VK_LBUTTON] || Keys[VK_UP] || Keys[VK_DOWN])
-    SceneCam.Rotate(SceneCam.Right, (-Keys[VK_LBUTTON] * MouseDY +
-                                            (Keys[VK_UP] - Keys[VK_DOWN])) * GlobalDeltaTime * 130);
+  //if (Keys[VK_LBUTTON] || Keys[VK_UP] || Keys[VK_DOWN])
+  //  SceneCam.Rotate(SceneCam.Right, (-Keys[VK_LBUTTON] * MouseDY +
+  //                                          (Keys[VK_UP] - Keys[VK_DOWN])) * GlobalDeltaTime * 130);
   if (Keys[VK_CONTROL] || Keys[VK_SPACE])
     SceneCam.Move(vec3(0, 20 * GlobalDeltaTime, 0) * (Keys[VK_SPACE] - Keys[VK_CONTROL]));
 } /* End of 'ivdx::dx12::core::Response' function */

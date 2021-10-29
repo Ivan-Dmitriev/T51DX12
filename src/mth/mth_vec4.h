@@ -15,7 +15,6 @@
  * Computer Graphics Support Group of 30 Phys-Math Lyceum
  */
 
-
 #ifndef __mth_vec4_h_
 #define __mth_vec4_h_
 
@@ -31,22 +30,27 @@ namespace math
     private:
       Type X, Y, Z, W;
     public:
+      //vec4( VOID ) 
+      //{
+      //} /* End of default constructor */
+
       vec4( Type NewX, Type NewY, Type NewZ, Type NewW  ) : X(NewX), Y(NewY), Z(NewZ), W(NewW)
       {
       } /* End of default constructor */
 
-      /* Constructor of vec3 class function.
+      /* Constructor of vec4 class function.
        * ARGUMENTS: None.
        * RETURNS: None.  
        */
       explicit vec4( Type NewV ) : X(NewV), Y(NewV), Z(NewV), W(NewV)
       {
       } /* End of default constructor */
-      /* Constructor of vec3 class function.
+
+      /* Constructor of vec4 class function.
        * ARGUMENTS: None.
        * RETURNS: None.  
        */
-      explicit vec4( VOID )
+      vec4( VOID )
       {
       } /* End of 'constructor' function */
 
