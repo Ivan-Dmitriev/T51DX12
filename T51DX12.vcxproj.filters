@@ -164,5 +164,8 @@
     <Image Include="src\res\cgsg.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
+    <Image Include="C:\Users\ID3\Downloads\avatar_res_1.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
   </ItemGroup>
 </Project>

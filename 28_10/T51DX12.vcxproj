@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{bec06fe2-43d4-4e4e-80b4-921978b477d5}</ProjectGuid>
+    <ProjectGuid>{0ec13820-ce17-4521-86a7-9f77e2d63853}</ProjectGuid>
     <RootNamespace>T51DX12</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -37,7 +37,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -86,17 +86,18 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions); _CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>X:\TGRKIT\INCLUDE\</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>X:\TGRKIT\INCLUDE</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>ivdx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>bodx.h</PrecompiledHeaderFile>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>X:\TGRKIT\LIB\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>X:\TGRKIT\LIB</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -105,30 +106,38 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <AdditionalIncludeDirectories>X:\TGRKIT\INCLUDE</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>bodx.h</PrecompiledHeaderFile>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>X:\TGRKIT\LIB</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>X:\TGRKIT\INCLUDE\</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>X:\TGRKIT\INCLUDE</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>ivdx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>bodx.h</PrecompiledHeaderFile>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>X:\TGRKIT\LIB\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>X:\TGRKIT\LIB</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -137,76 +146,87 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions); _CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>X:\TGRKIT\INCLUDE\</AdditionalIncludeDirectories>
-      <PrecompiledHeaderFile>ivdx.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <AdditionalIncludeDirectories>X:\TGRKIT\INCLUDE</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>bodx.h</PrecompiledHeaderFile>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>X:\TGRKIT\LIB\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>X:\TGRKIT\LIB</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\anim\anim.cpp" />
-    <ClCompile Include="src\anim\render\dx\dx12.cpp" />
-    <ClCompile Include="src\anim\render\dx\dx12_init.cpp" />
-    <ClCompile Include="src\anim\render\dx\dx12_render.cpp" />
-    <ClCompile Include="src\anim\render\dx\dx12_response.cpp" />
-    <ClCompile Include="src\anim\render\render.cpp" />
-    <ClCompile Include="src\ivdx.cpp">
+    <ClInclude Include="res.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="res\res.h" />
+    <ClInclude Include="src\animation\animation.h" />
+    <ClInclude Include="src\animation\input\input.h" />
+    <ClInclude Include="src\animation\input\joystick.h" />
+    <ClInclude Include="src\animation\input\keyboard.h" />
+    <ClInclude Include="src\animation\input\mouse.h" />
+    <ClInclude Include="src\animation\render\DirectX12\core.h" />
+    <ClInclude Include="src\animation\render\directx12\core_refference.h" />
+    <ClInclude Include="src\animation\render\DirectX12\tetris.h" />
+    <ClInclude Include="src\animation\render\render.h" />
+    <ClInclude Include="src\animation\render\resource\resource.h" />
+    <ClInclude Include="src\animation\timer.h" />
+    <ClInclude Include="src\animation\win\dialog.h" />
+    <ClInclude Include="src\animation\win\dialog_about.h" />
+    <ClInclude Include="src\animation\win\win.h" />
+    <ClInclude Include="src\animation\win\win_main.h" />
+    <ClInclude Include="src\bodx.h" />
+    <ClInclude Include="src\def.h" />
+    <ClInclude Include="src\math\intersection.h" />
+    <ClInclude Include="src\math\mth.h" />
+    <ClInclude Include="src\math\mthdef.h" />
+    <ClInclude Include="src\math\mth_camera.h" />
+    <ClInclude Include="src\math\mth_matr.h" />
+    <ClInclude Include="src\math\mth_noise.h" />
+    <ClInclude Include="src\math\mth_vec2.h" />
+    <ClInclude Include="src\math\mth_vec3.h" />
+    <ClInclude Include="src\math\mth_vec4.h" />
+    <ClInclude Include="src\utils\reader.h" />
+    <ClInclude Include="src\utils\stock.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\animation\animation.cpp" />
+    <ClCompile Include="src\animation\render\DirectX12\core_init.cpp" />
+    <ClCompile Include="src\animation\render\DirectX12\core_interface.cpp" />
+    <ClCompile Include="src\animation\render\directx12\core_render.cpp" />
+    <ClCompile Include="src\animation\render\render.cpp" />
+    <ClCompile Include="src\animation\render\resource\shader\shader.cpp" />
+    <ClCompile Include="src\animation\render\resource\texture\texture.cpp" />
+    <ClCompile Include="src\animation\win\dialog.cpp" />
+    <ClCompile Include="src\animation\win\win.cpp" />
+    <ClCompile Include="src\animation\win\win_main.cpp" />
+    <ClCompile Include="src\bodx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ivdx.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\samples\dlg.cpp" />
-    <ClCompile Include="src\win\win.cpp" />
-    <ClCompile Include="src\win\winmsg.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="res\resource.h" />
-    <ClInclude Include="src\anim\anim.h" />
-    <ClInclude Include="src\anim\input.h" />
-    <ClInclude Include="src\anim\render\dx\dx12.h" />
-    <ClInclude Include="src\anim\render\dx\dx12_primitive.h" />
-    <ClInclude Include="src\anim\render\dx\dx12_shader.h" />
-    <ClInclude Include="src\anim\render\dx\dx12_texture.h" />
-    <ClInclude Include="src\anim\render\dx\tetris.h" />
-    <ClInclude Include="src\anim\render\render.h" />
-    <ClInclude Include="src\anim\timer.h" />
-    <ClInclude Include="src\def.h" />
-    <ClInclude Include="src\ivdx.h" />
-    <ClInclude Include="src\mth\mth.h" />
-    <ClInclude Include="src\mth\mthdef.h" />
-    <ClInclude Include="src\mth\mth_camera.h" />
-    <ClInclude Include="src\mth\mth_matr.h" />
-    <ClInclude Include="src\mth\mth_vec2.h" />
-    <ClInclude Include="src\mth\mth_vec3.h" />
-    <ClInclude Include="src\mth\mth_vec4.h" />
-    <ClInclude Include="src\res\resource.h" />
-    <ClInclude Include="src\samples\dlg.h" />
-    <ClInclude Include="src\samples\dlgabout.h" />
-    <ClInclude Include="src\samples\winmain.h" />
-    <ClInclude Include="src\win\win.h" />
+    <ResourceCompile Include="res\T51DX12.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="src\res\T51DX12.rc" />
+    <None Include="arrow.cur" />
+    <None Include="res\arrow.cur" />
+    <None Include="res\cursor1.cur" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\res\cursor1.cur" />
-    <None Include="src\res\POINTER.cur" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="C:\Users\ID3\Downloads\avatar_res_1.bmp" />
-    <Image Include="cgsg.ico" />
-    <Image Include="res\cgsg.ico" />
-    <Image Include="src\res\cgsg.ico" />
+    <Image Include="bin\images\1.bmp" />
+    <Image Include="bin\images\2.bmp" />
+    <Image Include="res\icon.ico" />
+    <Image Include="res\icon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

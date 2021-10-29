@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Animation System">
+      <UniqueIdentifier>{579c28c8-e1ae-4873-bf5e-a99cc3d063cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Math Support">
+      <UniqueIdentifier>{edf01f61-1544-4dda-bdff-55aa917a309d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Animation System\WinApi">
+      <UniqueIdentifier>{9f0d0a54-6e52-4aed-b755-2cf4ce8d2524}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Animation System\Input System">
+      <UniqueIdentifier>{6c0b8694-3543-42e3-aad6-51ad44631fb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Animation System\Render System">
+      <UniqueIdentifier>{92de9177-78ee-4c8c-b7eb-340acb06f573}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{0d179cd8-e2be-40c0-87d6-2b5bfd6610ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Animation System\Render System\DirectX 12">
+      <UniqueIdentifier>{a19d6eea-d833-4a7c-af50-ac6103692b2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Animation System\Render System\Reources">
+      <UniqueIdentifier>{4e51bd56-56fb-4bd5-9aa5-6633f19e34c8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\utils\reader.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\intersection.h">
+      <Filter>Source Files\Math Support</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\mth.h">
+      <Filter>Source Files\Math Support</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\mth_camera.h">
+      <Filter>Source Files\Math Support</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\mth_matr.h">
+      <Filter>Source Files\Math Support</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\mth_noise.h">
+      <Filter>Source Files\Math Support</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\mth_vec2.h">
+      <Filter>Source Files\Math Support</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\mth_vec3.h">
+      <Filter>Source Files\Math Support</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\mth_vec4.h">
+      <Filter>Source Files\Math Support</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\mthdef.h">
+      <Filter>Source Files\Math Support</Filter>
+    </ClInclude>
+    <ClInclude Include="src\animation\win\win.h">
+      <Filter>Source Files\Animation System\WinApi</Filter>
+    </ClInclude>
+    <ClInclude Include="src\animation\render\render.h">
+      <Filter>Source Files\Animation System\Render System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\animation\input\input.h">
+      <Filter>Source Files\Animation System\Input System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\animation\input\joystick.h">
+      <Filter>Source Files\Animation System\Input System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\animation\input\keyboard.h">
+      <Filter>Source Files\Animation System\Input System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\animation\input\mouse.h">
+      <Filter>Source Files\Animation System\Input System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\animation\animation.h">
+      <Filter>Source Files\Animation System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\animation\timer.h">
+      <Filter>Source Files\Animation System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bodx.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\def.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\animation\render\DirectX12\core.h">
+      <Filter>Source Files\Animation System\Render System\DirectX 12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\animation\render\directx12\core_refference.h">
+      <Filter>Source Files\Animation System\Render System\DirectX 12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\animation\render\resource\resource.h">
+      <Filter>Source Files\Animation System\Render System\Reources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\stock.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\animation\render\DirectX12\tetris.h">
+      <Filter>Source Files\Animation System\Render System\DirectX 12</Filter>
+    </ClInclude>
+    <ClInclude Include="res.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="res\res.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\animation\win\win_main.h">
+      <Filter>Source Files\Animation System\WinApi</Filter>
+    </ClInclude>
+    <ClInclude Include="src\animation\win\dialog.h">
+      <Filter>Source Files\Animation System\WinApi</Filter>
+    </ClInclude>
+    <ClInclude Include="src\animation\win\dialog_about.h">
+      <Filter>Source Files\Animation System\WinApi</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\animation\render\render.cpp">
+      <Filter>Source Files\Animation System\Render System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animation\animation.cpp">
+      <Filter>Source Files\Animation System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bodx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animation\render\resource\texture\texture.cpp">
+      <Filter>Source Files\Animation System\Render System\Reources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animation\render\resource\shader\shader.cpp">
+      <Filter>Source Files\Animation System\Render System\Reources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animation\render\DirectX12\core_init.cpp">
+      <Filter>Source Files\Animation System\Render System\DirectX 12</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animation\render\directx12\core_render.cpp">
+      <Filter>Source Files\Animation System\Render System\DirectX 12</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animation\render\DirectX12\core_interface.cpp">
+      <Filter>Source Files\Animation System\Render System\DirectX 12</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animation\win\win_main.cpp">
+      <Filter>Source Files\Animation System\WinApi</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animation\win\win.cpp">
+      <Filter>Source Files\Animation System\WinApi</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animation\win\dialog.cpp">
+      <Filter>Source Files\Animation System\WinApi</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\T51DX12.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\cursor1.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="arrow.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\arrow.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\icon1.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bin\images\1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bin\images\2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

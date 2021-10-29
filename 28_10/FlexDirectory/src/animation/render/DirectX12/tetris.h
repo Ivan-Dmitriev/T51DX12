@@ -9,7 +9,7 @@
  *               Render system.
  *               Tetris game module.
  * PROGRAMMER  : CGSG'2021.
- *               Ivan Dmitriev.
+ *               Daniil Smirnov.
  * LAST UPDATE : 27.10.2021.
  * NOTE        : Module namespace 'bodx'.
  *
@@ -21,11 +21,9 @@
 #define __tetris_h_
 
 #include "../../../def.h"
-#include "../../timer.h"
-#include "dx12.h"
 
 /* Project namespace */
-namespace ivdx
+namespace bodx
 {
   // bricks configurations
   static constexpr BYTE Figures[7][4][4][4] =
@@ -242,7 +240,7 @@ namespace ivdx
   }; /* End of 'figure' class */
 
   /* Field class */
-  class field 
+  class field : public dx12::core_ref
   {
   private:
     std::string
@@ -253,9 +251,6 @@ namespace ivdx
     INT W, H;
 
   public:
-    vec4 TransCubes[20000];
-    INT NumOfCubes = 0;
-
     /* Class constructor.
      * ARGUMENTS:
      *   - size:
@@ -282,25 +277,15 @@ namespace ivdx
      * ARGUMENTS: None.
      * RETURNS: (INT)Num of active bricks.
      */
-    INT Draw( VOID )
+    INT Draw( VOID ) const
     {
       INT q = 0;
-      //for (INT y = 0; y < H + 2; y++)
-      //{
-      //  for (INT x = 0; x < W + 2; x++)
-      //    if (x == 0 || x == W + 1 || y == 0 || y == H + 1 || Cells[(y - 1) * W + x - 1])
-      //      TransCubes[q++] = vec4((FLT)(-W / 2 + x), (FLT)(H / 2 - y), 0, 0);
-      //}
       for (INT y = 0; y < H + 2; y++)
       {
         for (INT x = 0; x < W + 2; x++)
           if (x == 0 || x == W + 1 || y == 0 || y == H + 1 || Cells[(y - 1) * W + x - 1])
-            TransCubes[q++] = vec4(2 * x, 2 * (H + 2 - y), 0, 0);
+            D3D->ConstantBufferData[0].Poses[q++] = vec4((FLT)(-W / 2 + x), (FLT)(H / 2 - y), 0, 1);
       }
-
-      q += 8;
-      NumOfCubes = q;
-
       return q;
     } /* End of 'Draw' function */
 
@@ -349,7 +334,6 @@ namespace ivdx
      */
     VOID PlaceFigure( const figure &F )
     {
-      
       for (INT i = 0; i < 4; i++)
         for (INT j = 0; j < 4; j++)
           if (Figures[F.Index][F.Rotation][i][j])
@@ -364,7 +348,7 @@ namespace ivdx
      *       const mth::vec2<INT> &Dir;
      * RETURNS: (BOOL) TRUE if touched, FALSE otherwise.
      */
-    BOOL CheckFigureTouch( const figure &F, math::vec2<INT> Dir ) 
+    BOOL CheckFigureTouch( const figure &F, const mth::vec2<INT> &Dir ) const
     {
       for (INT i = 0; i < 4; i++)
         for (INT j = 0; j < 4; j++)
@@ -414,31 +398,27 @@ namespace ivdx
   }; /* End of 'field' class */
 
   /* Tetris class */
-  class tetris 
+  class tetris : public dx12::core_ref
   {
   private:
+    const INT W, H;
+    field Glass, Frame;
     figure Player;
-    ::ivdx::timer T;
-    
+    timer T;
+
     const INT ScoreMultiplyer = 200;
     INT Score;
-    INT IsPause = FALSE;
 
   public:
-    const INT W, H;
-    //INT NumOfCubes = 4;
-    
-    field Glass, Frame;
-    
     /* Default constructor. */
     tetris( VOID ) :
-      W(15), H(26),
+      W(26), H(36),
       Glass(W, H), Frame(W, H), Player(0, 0, rand() % _countof(Figures), rand() % 4),
       Score(0)
     {
     } /* End of 'tetris' function */
 
-  private: 
+  private:                    
     /* Move figure function.
      * ARGUMENTS:
      *   - input states:
@@ -456,17 +436,17 @@ namespace ivdx
       d1 += T.DeltaTime;
       d2 += T.DeltaTime;
       d3 += T.DeltaTime;
-      if ((KeysClick[VK_LEFT] || d1 > 0.1 && Keys[VK_LEFT]) && !Glass.CheckFigureTouch(Player, math::vec2<INT>(-1, 0)))
+      if ((KeysClick[VK_LEFT] || d1 > 0.1 && Keys[VK_LEFT]) && !Glass.CheckFigureTouch(Player, mth::vec2<INT>(-1, 0)))
           Player.X--, d1 = 0;
-      if ((KeysClick[VK_RIGHT] || d2 > 0.1 && Keys[VK_RIGHT]) && !Glass.CheckFigureTouch(Player, math::vec2<INT>(1, 0)))
+      if ((KeysClick[VK_RIGHT] || d2 > 0.1 && Keys[VK_RIGHT]) && !Glass.CheckFigureTouch(Player, mth::vec2<INT>(1, 0)))
         Player.X++, d2 = 0;
-      if (Keys[VK_DOWN] && !Glass.CheckFigureTouch(Player, math::vec2<INT>(0, 1)))
+      if (Keys[VK_DOWN] && !Glass.CheckFigureTouch(Player, mth::vec2<INT>(0, 1)))
         Player.Y++;
-      if (KeysClick['R'] || d3 > 0.2 && Keys['R'])
+      if (KeysClick[VK_SPACE] || d3 > 0.2 && Keys[VK_SPACE])
       {
         figure tmp = Player;
         tmp.Rotation = (Player.Rotation + 1) % 4;
-        if (!Glass.CheckFigureTouch(tmp, math::vec2<INT>(0, 0)))
+        if (!Glass.CheckFigureTouch(tmp, mth::vec2<INT>(0, 0)))
           Player.Rotation = (Player.Rotation + 1) % 4;
         d3 = 0;
       }
@@ -480,11 +460,8 @@ namespace ivdx
     {
       Frame = Glass;
       Frame.PlaceFigure(Player);
-      if (Glass.CheckFigureTouch(Player, math::vec2<INT>(0, 1)))
-      {
-        //NumOfCubes += 4;
+      if (Glass.CheckFigureTouch(Player, mth::vec2<INT>(0, 1)))
         Glass.PlaceFigure(Player), Player = figure(0, 0, rand() % _countof(Figures), 0);
-      }
 
       // Output player's score
       //std::cout << "Your Score: " << Score << '\n';
@@ -498,14 +475,9 @@ namespace ivdx
      */
     INT Tick( BYTE *Keys, BYTE *KeysClick )
     {
-      if (Keys[VK_CONTROL] && KeysClick['P'])
-        IsPause = !IsPause;
       T.Response();
-      if (!IsPause)
-      {
-        PlayerMove(Keys, KeysClick);
-        Score += Glass.ClearLines() * ScoreMultiplyer;
-      }
+      PlayerMove(Keys, KeysClick);
+      Score += Glass.ClearLines() * ScoreMultiplyer;
       return Render();
     } /* End of 'Tick' function */
   }; /* End of 'tetris' class */

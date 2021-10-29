@@ -3,25 +3,23 @@
  *    Computer Graphics Support Group of 30 Phys-Math Lyceum
  *************************************************************/
  
-/* FILE NAME   : dlg.cpp
+/* FILE NAME   : dialog.cpp
  * PURPOSE     : CGSG'Sr'2021 WinApi resourse sample project.
  *               Dialog handle implementation module.
  * PROGRAMMER  : CGSG'2021.
- *               Ivan Dmitriev.
+ *               Daniil Smirnov.
  * LAST UPDATE : 28.10.2021
- * NOTE        : Project namespace 'ivdx'.
+ * NOTE        : Project namespace 'bodx'.
  *
  * No part of this file may be changed without agreement of
  * Computer Graphics Support Group of 30 Phys-Math Lyceum
  */
 
-#include <ivdx.h>
-#include "../ivdx.h"
-
-#include "dlg.h"
+#include <bodx.h>
+#include "../../bodx.h"
 
 // Map for storing all dialog windows
-std::map<HWND, ivdx::win *> ivdx::dlg::Windows;
+std::map<HWND, bodx::win *> bodx::dialog::Windows;
 
 /* Dialog window message handle function.
  * ARGUMENTS:
@@ -36,9 +34,9 @@ std::map<HWND, ivdx::win *> ivdx::dlg::Windows;
  * RETURNS:
  *   (INT_PTR) Value according message type.
  */
-INT_PTR CALLBACK ivdx::dlg::DlgFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam )
+INT_PTR CALLBACK bodx::dialog::DialogFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam )
 {
-  dlg *Win = nullptr;
+  dialog *Win = nullptr;
 
   switch (Msg)
   {
@@ -55,12 +53,12 @@ INT_PTR CALLBACK ivdx::dlg::DlgFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM 
     ((MINMAXINFO *)lParam)->ptMinTrackSize.x += 300 + 102 * 5 + 47;
     return 0;
   case WM_INITDIALOG:
-    Windows[hWnd] = reinterpret_cast<dlg *>(lParam);
+    Windows[hWnd] = reinterpret_cast<dialog *>(lParam);
     Windows[hWnd]->hWnd = hWnd;
   default:
     if (Windows.find(hWnd) == Windows.end())
       break;
-    Win = dynamic_cast<dlg *>(Windows[hWnd]);
+    Win = dynamic_cast<dialog *>(Windows[hWnd]);
     switch (Msg)
     {
     case WM_INITDIALOG:
@@ -85,6 +83,6 @@ INT_PTR CALLBACK ivdx::dlg::DlgFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM 
     }
   }
   return FALSE;
-} /* End of 'ivdx::dlg::DlgFunc' function */
+} /* End of 'bodx::dialog_main::DialogFunc' function */
 
-/* END OF 'dlg.cpp' FILE */
+/* END OF 'dialog.cpp' FILE */

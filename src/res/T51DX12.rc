@@ -74,8 +74,12 @@ IDR_MENU1 MENU
 BEGIN
     POPUP "Help"
     BEGIN
-        MENUITEM "&About",                      ID_HELP_ABOUT
+        MENUITEM "&About\tF1",                  ID_HELP_ABOUT
         MENUITEM "&Close\tAlt+X",               ID_HELP_CLOSE
+    END
+    POPUP "Pause"
+    BEGIN
+        MENUITEM "&Game pause\tCtrl + P",       ID_PAUSE_PAUSE
     END
 END
 
@@ -85,13 +89,15 @@ END
 // Dialog
 //
 
-IDD_DIALOG1 DIALOGEX 0, 0, 385, 211
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_ABOUT DIALOGEX 0, 0, 385, 211
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Dialog"
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
+FONT 8, "Tahoma", 400, 0, 0xCC
 BEGIN
-    DEFPUSHBUTTON   "ОК",IDOK,199,190,50,14
-    PUSHBUTTON      "Отмена",IDCANCEL,328,190,50,14
+    DEFPUSHBUTTON   "ОК",IDOK,238,181,50,14
+    PUSHBUTTON      "Отмена",IDCANCEL,310,181,50,14
+    LTEXT           "Copyright Computer Graphics Support Group Author: Ivan Dmitriev",IDC_STATIC,109,27,224,16
+    CONTROL         "MY3D",IDC_MY3D,"Button",BS_OWNERDRAW | WS_TABSTOP,21,59,114,83
 END
 
 
@@ -103,6 +109,8 @@ END
 IDR_ACCELERATOR1 ACCELERATORS
 BEGIN
     "X",            ID_FILES_EXIT,          VIRTKEY, ALT, NOINVERT
+    VK_F1,          ID_HELP_ABOUT,          VIRTKEY, NOINVERT
+    "P",            ID_GAME_PAUSE,          VIRTKEY, CONTROL, NOINVERT
 END
 
 
@@ -114,9 +122,9 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
-    IDD_DIALOG1, DIALOG
+    IDD_ABOUT, DIALOG
     BEGIN
-        LEFTMARGIN, 7
+        LEFTMARGIN, 6
         RIGHTMARGIN, 378
         TOPMARGIN, 7
         BOTTOMMARGIN, 204
@@ -130,10 +138,18 @@ END
 // AFX_DIALOG_LAYOUT
 //
 
-IDD_DIALOG1 AFX_DIALOG_LAYOUT
+IDD_ABOUT AFX_DIALOG_LAYOUT
 BEGIN
     0
 END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BITMAP1             BITMAP                  "C:\\Users\\ID3\\Downloads\\avatar_res_1.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////

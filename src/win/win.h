@@ -152,7 +152,7 @@ namespace ivdx
           }
         else
           /* Call idle virtual function */
-          Idle();
+          ;//Idle();
     } /* End of 'Run' function */
 
 

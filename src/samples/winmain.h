@@ -58,10 +58,11 @@ namespace ivdx
     BOOL OnCreate( CREATESTRUCT *CS ) override
     {
       SetTimer(hWnd,             // handle to main window 
-                InitTimer,        // timer identifier 
-                0,                // 0-second interval 
-                (TIMERPROC)nullptr);
-          return TRUE;
+               InitTimer,        // timer identifier 
+               0,                // 0-second interval 
+               (TIMERPROC)nullptr);
+      //MyTool.Create();
+      return TRUE;
     } /* End of 'OnCreate' function */
 
     /* WM_DESTROY window message handle function.
@@ -155,7 +156,7 @@ namespace ivdx
       switch (Id)
       {
       case ID_HELP_ABOUT:
-        //dlg_about(this).Run();
+        dlg_about(this).Run();
         return;
       case 30:
         OnDropFiles(nullptr);
@@ -186,13 +187,13 @@ namespace ivdx
      *   - application instance handle:
      *       HINSTANCE hInstanceNew;
      */
-    win_main( HINSTANCE hInstanceNew = GetModuleHandle(nullptr) ) : win(hInstanceNew)
+    win_main( HINSTANCE hInstanceNew = GetModuleHandle(nullptr) ) : win(hInstanceNew), MyTool(this)
     {
       /* Register window class */
       WNDCLASSEX wc;
 
       wc.cbSize = sizeof(WNDCLASSEX);
-      wc.style = CS_VREDRAW | CS_HREDRAW;
+      wc.style = CS_VREDRAW | CS_HREDRAW | CS_DBLCLKS;
       wc.cbClsExtra = 0;
       wc.cbWndExtra = sizeof(VOID *);
       wc.hbrBackground = (HBRUSH)COLOR_MENU;
@@ -225,11 +226,22 @@ namespace ivdx
           CW_USEDEFAULT, CW_USEDEFAULT,
           nullptr, LoadMenu(hInstance, (CHAR *)IDR_MENU1), hInstance, (VOID *)this);
 
+
       hAccel = LoadAccelerators(hInstance, (CHAR *)IDR_ACCELERATOR1);
 
       /* Show window */
       ShowWindow(hWnd, SW_SHOWNORMAL);
       UpdateWindow(hWnd);
+      CreateWindow("BUTTON",
+        "About",
+        WS_CHILD | WS_CLIPSIBLINGS,
+        /*
+        CW_USEDEFAULT, CW_USEDEFAULT,
+        CW_USEDEFAULT, CW_USEDEFAULT,
+        */
+        30, 30, 300, 100,
+        hWnd, (HMENU)30, hInstance, nullptr);
+
     } /* End of 'win_main' function */
 
     /* Class destructor */

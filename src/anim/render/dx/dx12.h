@@ -83,7 +83,7 @@ namespace ivdx
     {
       FLOAT Pos[3];
       FLOAT Color[3];
-      //FLOAT texcoord[2];
+      FLOAT texcoord[2];
     }; /* End of 'vertex' struct */
 
     /* Safe release COM interface function.
@@ -206,14 +206,14 @@ namespace ivdx
 
       vertex triangleVertices[8] = 
       {
-        { {-1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 0.0f} }, // 0
-        { {-1.0f,  1.0f, -1.0f}, {0.0f, 1.0f, 0.0f} }, // 1
-        { {1.0f,  1.0f, -1.0f},  {1.0f, 1.0f, 0.0f} }, // 2
-        { {1.0f, -1.0f, -1.0f},  {1.0f, 0.0f, 0.0f} }, // 3
-        { {-1.0f, -1.0f,  1.0f}, {0.0f, 0.0f, 1.0f} }, // 4
-        { {-1.0f,  1.0f,  1.0f}, {0.0f, 1.0f, 1.0f} }, // 5
-        { {1.0f, 1.0f,  1.0f},  {1.0f, 1.0f, 1.0f} }, // 6
-        { {1.0f, -1.0f,  1.0f},  {1.0f, 0.0f, 1.0f} }  // 7
+        { {-1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f} }, // 0
+        { {-1.0f,  1.0f, -1.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 1.0f}  }, // 1
+        { {1.0f,  1.0f, -1.0f},  {1.0f, 1.0f, 0.0f}, {0.0f, 1.0f}  }, // 2
+        { {1.0f, -1.0f, -1.0f},  {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f}  }, // 3
+        { {-1.0f, -1.0f,  1.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f}  }, // 4
+        { {-1.0f,  1.0f,  1.0f}, {0.0f, 1.0f, 1.0f}, {1.0f, 1.0f}  }, // 5
+        { {1.0f, 1.0f,  1.0f},   {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f} }, // 6
+        { {1.0f, -1.0f,  1.0f},  {1.0f, 0.0f, 1.0f}, {1.0f, 0.0f}  }  // 7
       };
       
       UINT IndexBufferData[36] =
@@ -237,9 +237,10 @@ namespace ivdx
 
       Microsoft::WRL::ComPtr<ID3D12Resource> TextureSample;
 
-public:
+    public:
       struct CONSTBUFFER
       {
+        vec4 FieldSize;
         matr M;
         vec4 Poses[700];
       };
@@ -248,6 +249,7 @@ public:
 
       CONSTBUFFER ConstantBufferData[1] =
       {
+        vec4(1.0f, 1.0f, 0, 0),
         matr::Identity(),
         *Poses1
       };

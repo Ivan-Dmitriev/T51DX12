@@ -3,36 +3,33 @@
  *    Computer Graphics Support Group of 30 Phys-Math Lyceum
  *************************************************************/
  
-/* FILE NAME   : dlgabout.h
+/* FILE NAME   : dialog_about.h
  * PURPOSE     : CGSG'Sr'2021 WinApi resourse sample project.
  *               About dialog window handle declaration module.
  * PROGRAMMER  : CGSG'2021.
- *               Ivan Dmitriev.
+ *               Daniil Smirnov.
  * LAST UPDATE : 28.10.2021
- * NOTE        : Project namespace 'ivdx'.
+ * NOTE        : Project namespace 'bodx'.
  *
  * No part of this file may be changed without agreement of
  * Computer Graphics Support Group of 30 Phys-Math Lyceum
  */
 
-#ifndef __dlgabout_h_
-#define __dlgabout_h_
+#ifndef __dialog_about_h_
+#define __dialog_about_h_
 
-#include "dlg.h"
-#include "../res/resource.h"
+#include "dialog.h"
+#include "../../def.h"
 
 /* Project namespace */
-namespace ivdx
+namespace bodx
 {
   /* Window handle class */
-  class dlg_about : public dlg
+  class dialog_about : public dialog
   {
   private:
-    HBITMAP hAvatar; // Test image
-
-    /***
-     * Cracked message handle functions
-     ***/
+    HBITMAP hBitmap1; // Test image
+    HBITMAP hBitmap2; // Test image
 
     /***
      * Message crackers
@@ -49,8 +46,8 @@ namespace ivdx
      */
     BOOL OnInitDialog( HWND hWndFocus, LPARAM lParam ) override
     {
-      //SendDlgItemMessage(hWnd, IDC_PROGRESS1, PBM_SETRANGE, 0, MAKELONG(0, 100));
-      //SendDlgItemMessage(hWnd, IDC_PROGRESS1, PBM_SETPOS, 30, 0);
+      //SenddialogItemMessage(hWnd, IDC_PROGRESS1, PBM_SETRANGE, 0, MAKELONG(0, 100));
+      //SenddialogItemMessage(hWnd, IDC_PROGRESS1, PBM_SETPOS, 30, 0);
       return TRUE;
     } /* End of 'OnInitDialog' function */
 
@@ -78,16 +75,28 @@ namespace ivdx
       if (Id == IDC_MY3D)
       {
         BITMAP bm;
-        GetObject(hAvatar, sizeof(bm), &bm);
-
+        GetObject(hBitmap1, sizeof(bm), &bm);
+        
         BITMAPINFOHEADER bmh {};
         bmh.biSize = sizeof(BITMAPINFOHEADER);
         bmh.biBitCount = bm.bmBitsPixel;
         bmh.biWidth = bm.bmWidth;
         bmh.biHeight = bm.bmHeight;
         bmh.biPlanes = 1;
-
-        StretchDIBits(DrawItem->hDC, 0, 0, bm.bmWidth, bm.bmHeight, 0, 0, bm.bmWidth, bm.bmHeight, bm.bmBits, (BITMAPINFO *)&bmh, DIB_RGB_COLORS, SRCCOPY);
+        
+        StretchDIBits(DrawItem->hDC, 0, 0, bm.bmWidth, bm.bmHeight, 0, 0, bm.bmWidth, bm.bmHeight, bm.bmBits, (BITMAPINFO *)&bmh, DIB_RGB_COLORS, SRCAND);
+        
+        bm = {};
+        GetObject(hBitmap2, sizeof(bm), &bm);
+        
+        bmh = {};
+        bmh.biSize = sizeof(BITMAPINFOHEADER);
+        bmh.biBitCount = bm.bmBitsPixel;
+        bmh.biWidth = bm.bmWidth;
+        bmh.biHeight = bm.bmHeight;
+        bmh.biPlanes = 1;
+        
+        StretchDIBits(DrawItem->hDC, 0, 0, bm.bmWidth, bm.bmHeight, 0, 0, bm.bmWidth, bm.bmHeight, bm.bmBits, (BITMAPINFO *)&bmh, DIB_RGB_COLORS, SRCINVERT);
       }
     } /* End of 'OnDrawItem' function */
 
@@ -135,19 +144,20 @@ namespace ivdx
      *   - application instance handle:
      *       HINSTANCE hInstanceNew;
      */
-    dlg_about( win *ParentWin ) :
-      dlg(IDD_ABOUT, ParentWin)
+    dialog_about( win *ParentWin ) :
+      dialog(IDD_ABOUT, ParentWin),
+      hBitmap1((HBITMAP)LoadImage(GetModuleHandle(nullptr), (CHAR *)IDB_BITMAP1, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION)),
+      hBitmap2((HBITMAP)LoadImage(GetModuleHandle(nullptr), (CHAR *)IDB_BITMAP2, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION))
     {
-      hAvatar = (HBITMAP)LoadImage(hInstance, (CHAR *)IDB_BITMAP1, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION);
-    } /* End of 'dlg_about' function */
+    } /* End of 'dialog_about' function */
 
     /* Class destructor */
-    ~dlg_about( VOID ) override
+    ~dialog_about( VOID ) override
     {
-    } /* End of '~dlg_about' function */
-  }; /* End of 'dlg_about' class */
-} /* end of 'ivdx' namespace */
+    } /* End of '~dialog_about' function */
+  }; /* End of 'dialog_about' class */
+} /* end of 'bodx' namespace */
 
-#endif /* __dlgabout_h_*/
+#endif /* __dialog_about_h_*/
 
-/* END OF 'dlgabout.h' FILE */
+/* END OF 'dialog_about.h' FILE */

@@ -43,6 +43,9 @@ VOID ivdx::dx12::core::Render( INT Cnt )
   //INT Cnt = T.Frame.NumOfCubes;
 
   ConstantBufferData[0].M = SceneCam.VP;
+  ConstantBufferData[0].FieldSize = vec4(Game.W, Game.H, 0, 0);
+  //ConstantBufferData[0].W = Game.W;
+
   for (INT i = 0; i < Cnt; i++)
     ConstantBufferData[0].Poses[i] = Game.Frame.TransCubes[i];
 

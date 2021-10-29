@@ -9,18 +9,24 @@
 #define IDC_MAIN_CURSOR                 104
 #define IDR_MENU1                       104
 #define IDR_ACCELERATOR1                105
-#define IDD_DIALOG1                     106
+#define IDD_ABOUT                       106
+#define IDB_BITMAP1                     109
+#define IDC_MY3D                        1005
 #define ID_HELP_ABOUT                   40001
 #define ID_FILES_EXIT                   40002
 #define ID_HELP_CLOSE                   40005
+#define ID_PAUSE_PAUSE                  40006
+#define ID_ABOUT_F12                    40007
+#define ID_ACCELERATOR40009             40009
+#define ID_GAME_PAUSE                   40009
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        108
-#define _APS_NEXT_COMMAND_VALUE         40006
-#define _APS_NEXT_CONTROL_VALUE         1001
+#define _APS_NEXT_RESOURCE_VALUE        110
+#define _APS_NEXT_COMMAND_VALUE         40011
+#define _APS_NEXT_CONTROL_VALUE         1006
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
